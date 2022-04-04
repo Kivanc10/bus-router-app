@@ -1,27 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,Button, Text, View ,TextInput} from 'react-native';
 import { useState, useEffect } from 'react';
+import { loginForUser } from '../utils/interact';
 
-
-function onPressed(route,password,navigation,username) {
-    if (route.params?.password) {
-      if (route.params.password != password) {
-        alert("Passwords are not matched")
-      }else{
-        navigation.navigate({
-          name : "Wrapper",
-          params : {isLoggedIn:true,username : username},
-          merge : true
-        });
-      }
-    }else{
-      navigation.navigate({
-        name : "Wrapper",
-        params : {isLoggedIn:true,username : username},
-        merge : true
-      });
-    }
-}
+// function onPressed(route,password,navigation,username) {
+//     if (route.params?.password) {
+//       if (route.params.password != password) {
+//         alert("Passwords are not matched")
+//       }else{
+//         navigation.navigate({
+//           name : "Wrapper",
+//           params : {isLoggedIn:true,username : username},
+//           merge : true
+//         });
+//       }
+//     }else{
+//       navigation.navigate({
+//         name : "Wrapper",
+//         params : {isLoggedIn:true,username : username},
+//         merge : true
+//       });
+//     }
+// }
 
 export default function Login({ navigation, route }) {
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function Login({ navigation, route }) {
           {/* <Button onPress={() => navigation.navigate("Inside",{
             username
           })} title='Giriş yap'/> */}
-          <Button onPress={() => onPressed(route,password,navigation,username)} title='Giriş yap'/>
+          <Button onPress={() => loginForUser(route,password,navigation,username)} title='Giriş yap'/>
           </View>
         </View>
       </View>

@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Button, View ,ImageBackground,TextInput} from 'react-native';
 import  { useState } from 'react';
+import { registerForUser } from '../utils/interact';
 
 
 export default function Register({route,navigation}) {
@@ -23,10 +24,7 @@ export default function Register({route,navigation}) {
         </View>
         <View style={styles.registerBtnWrapper}>
         {/*  */}
-            <Button title='Kayıt Ol' onPress={() => navigation.navigate("Login",{
-                username,
-                password
-            })} /> 
+            <Button title='Kayıt Ol' onPress={() => registerForUser(username,password,email,navigation)} /> 
 
         </View>
     </View>

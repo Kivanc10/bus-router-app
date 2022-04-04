@@ -1,22 +1,23 @@
 import { StyleSheet, View, Text, Button,TextInput } from 'react-native';
 import { useState } from 'react';
-
+import {adminLogin} from "../utils/interact"
 
 function onPressed(username,pswrd,navigation) {
     if (username === "" || pswrd === "") {
         alert("Boşlukları doldurun lütfen")
     }else{
-        if (username === "root" && pswrd === "root") {
-            //navigation.navigate("")
-            //alert("Giriş başarılı")
-            navigation.navigate({
-                name : "Wrapper",
-                params : {isAdmin : true},
-                merge : true
-              });
-        }else{
-            alert("Giriş başarısızz")
-        }
+        adminLogin(username,pswrd,navigation)
+        // if (username === "root" && pswrd === "root") {
+        //     //navigation.navigate("")
+        //     //alert("Giriş başarılı")
+            // navigation.navigate({
+            //     name : "Wrapper",
+            //     params : {isAdmin : true},
+            //     merge : true
+            //   });
+        // }else{
+        //     alert("Giriş başarısızz")
+        // }
     }
 }
 

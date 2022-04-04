@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text ,Button} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons  from "@expo/vector-icons/Ionicons"
-
+import {adminLogout} from "../utils/interact"
 
 
 
@@ -45,13 +45,7 @@ function AdminHome({ navigation,route }) {
     return (
         <View style={styles.container}>
             <Text>Inside Home page </Text>
-            <Button title="Logout" onPress = {() => {
-                navigation.navigate({
-                    name : "Wrapper",
-                    params : {isAdmin : false},
-                    merge : true
-                })
-            }} />
+            <Button title="Logout" onPress = {() => adminLogout(navigation)} />
         </View>
     )
 }

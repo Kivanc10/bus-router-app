@@ -8,6 +8,7 @@ import Home from './src/components/home.component';
 import Inside from './src/components/inside.component';
 import Admin from "./src/components/admin.component"
 import AdminWrapper from './src/components/adminwrapper.component';
+import {checkAdmin, checkUser} from './src/utils/interact';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,18 +30,23 @@ function IntroPage({ navigation }) {
 function Wrapper({ navigation, route }) {
 
   useEffect(() => {
-    if (route.params?.isLoggedIn) {
-      setIsLoggedIn(true)
-      // let username = route.params.username;
-      // alert(JSON.stringify(route.params.username))
-    } else if (!route.params?.isLoggedIn) {
-      setIsLoggedIn(false)
-    }
-    if(route.params?.isAdmin) {
-      setIsAdmin(true)
-    }else if(!route.params?.isAdmin){
-      setIsAdmin(false)
-    }
+    let result = checkAdmin(navigation)
+    checkUser(navigation)
+   
+      if (route.params?.isLoggedIn) {
+        setIsLoggedIn(true)
+        // let username = route.params.username;
+        // alert(JSON.stringify(route.params.username))
+      } else if (!route.params?.isLoggedIn) {
+        setIsLoggedIn(false)
+      }
+      if(route.params?.isAdmin) {
+        setIsAdmin(true)
+      }else if(!route.params?.isAdmin){
+        setIsAdmin(false)
+      }
+    
+    
   }, [route.params?.isLoggedIn,route.params?.isAdmin])
     
     const [isLoggedIn, setIsLoggedIn] = useState(false)

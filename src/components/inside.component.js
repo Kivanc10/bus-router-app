@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text ,Button} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons  from "@expo/vector-icons/Ionicons"
-
+import {adminLogout, logoutForUser} from "../utils/interact"
 
 
 const Tab = createBottomTabNavigator();
@@ -44,13 +44,7 @@ function InsideHome({ navigation,route }) {
     return (
         <View style={styles.container}>
             <Text>Inside Home page  {username} </Text>
-            <Button title="Logout" onPress = {() => {
-                navigation.navigate({
-                    name : "Wrapper",
-                    params : {isLoggedIn : false},
-                    merge : true
-                })
-            }} />
+            <Button title="Logout" onPress = {() => logoutForUser(navigation)} />
         </View>
     )
 }
