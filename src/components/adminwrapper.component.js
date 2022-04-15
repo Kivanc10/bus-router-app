@@ -1,16 +1,96 @@
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Button,TextInput } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from "@expo/vector-icons/Ionicons"
-import { addVoyages, adminLogout, getStations } from "../utils/interact"
+import { addVoyages, adminLogout, getStations, updateNumberOfPassengersOfStation,getVoyages } from "../utils/interact"
 import { useEffect, useState } from 'react';
 import { MyText } from "../utils/flatList"
 import {StationList} from "../utils/stationList"
 import stationData from '../utils/stationsInfo.json';
 import { getAllVoyages } from '../utils/getAllVoyages';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {addStation} from "../utils/interact"
+import {calculateDistanceMatrix} from "../utils/calculateDistanceMatrix"
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function AdminWrapper({ navigation, route }) {
+
+function GoStationPage({navigation,route}) {
+  useEffect(() => {
+    //window.alert(typeof lat)
+  })
+  const {stationName,lat,lng,otherNavigation} = route.params;
+  const [value,setValue] = useState("")
+  return (
+    <View style={{flex : 1,padding : 30}}>
+      <Text style={{
+              color : "red",
+              fontSize : 25
+            }}>İstasyon ({stationName})</Text>
+      
+        <View style={{
+          paddingTop : 50
+        }}>
+          
+            <Text style={{
+              fontSize : 18,
+              color : "blue"
+            }}>Yolcu sayısı</Text>
+            <TextInput style={{
+              padding : 15,
+              borderWidth : 1,
+              marginBottom : 15
+            }} onChangeText={(newText) => setValue(newText)} placeholder="Numara girin" />
+            <Button title='Kaydet' onPress={() => addStation(stationName,lat,lng,parseInt(value),otherNavigation)} />
+         
+        </View>
+      
+    </View>
+  )
+}
+
+function AddedStationPage({navigation,route}) {
+  const {stationName,otherNavigation} = route.params;
+  const [value,setValue] = useState("")
+  return (
+    <View style={{flex : 1,padding : 30}}>
+      <Text style={{
+              color : "red",
+              fontSize : 25
+            }}>İstasyon ({stationName})(ekli) </Text>
+      
+        <View style={{
+          paddingTop : 50
+        }}>
+          
+            <Text style={{
+              fontSize : 18,
+              color : "blue"
+            }}>Yolcu sayısı güncelle</Text>
+            <TextInput style={{
+              padding : 15,
+              borderWidth : 1,
+              marginBottom : 15
+            }} onChangeText={(newText) => setValue(newText)} placeholder="Numara girin" />
+            <Button title='Kaydet' onPress={() => updateNumberOfPassengersOfStation(stationName,parseInt(value),otherNavigation)} />
+         
+        </View>
+      
+    </View>
+  )
+}
+
+export default function AdminWrapper({navigation}) {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name = "AdminHome" component = {AdminComponent} />
+      <Stack.Screen name= "GoStationPage" component = {GoStationPage} />
+      <Stack.Screen name= "AddedStationPage" component = {AddedStationPage} />
+      
+    </Stack.Navigator>
+  )
+}
+ function AdminComponent({ navigation, route }) {
   // alert("Inside username --> " + username)
   return (
     <Tab.Navigator
@@ -81,6 +161,13 @@ function getAllPassengers(passengers,setPassengers) {
   })
 }
 
+function getVoyages_(voyageData,setVoyageData) {
+  getVoyages().then(data => {
+    //window.alert(JSON.stringify(data))
+    setVoyageData(data)
+  })
+}
+
 function AdminHome({ navigation, route }) {
   //const {username} = route.params;
   const [stations, setStations] = useState([])
@@ -89,7 +176,7 @@ function AdminHome({ navigation, route }) {
   const [locations,setLocations] = useState([])
   const [passengers,setPassengers] = useState([])
   const [passenger,setPassenger] = useState(-1)
-
+  const [voyageData,setVoyageData] = useState([])
   //const [city,setCity] = useState("")
   useEffect(() => {
     if (route.params?.run) {
@@ -115,6 +202,11 @@ function AdminHome({ navigation, route }) {
       })
     }
     getAllVoyages()
+    getVoyages_(voyageData,setVoyageData)
+    //window.alert(voyageData.length)
+    calculateDistanceMatrix(voyageData)
+    
+    //window.alert(JSON.stringify(x))
   }, [route.params?.run,route.params?.lat,route.params?.lng])
 
   if (route.params?.run) {
@@ -149,6 +241,7 @@ function AdminHome({ navigation, route }) {
       ))}
       <Button title='sefer yenile' onPress={() => addVoyages()} />
       <Button title="Logout" onPress={() => adminLogout(navigation)} />
+      
     </View>
   )
 }
@@ -163,7 +256,7 @@ function AdminDetail({ navigation, route }) {
   }, [])
 
   if (route.params?.run2) {
-     window.alert("run2 aktif")
+     //window.alert("run2 aktif")
      getStationDatas(stations,setStations)
      navigation.setParams({
        run2 : false

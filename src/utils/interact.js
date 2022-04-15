@@ -80,20 +80,33 @@ export function addStation(name, lat, lng, passengers, navigation) {
         passengers
     }).then((res) => {
         let result = res.data
-        // navigation.navigate("AdminHome",{
-        //     run : true
-        // })
-        navigation.navigate({
-            name: "AdminHome",
-            params: { run: true },
-            merge: true
+        navigation.navigate("AdminHome",{
+            run : true
         })
+        // navigation.navigate({
+        //     name: "AdminHome",
+        //     params: { run: true },
+        //     merge: true
+        // })
         status = true
     }).catch((e) => {
         window.alert("istasyon eklerken hata oluştu")
         status = false
     })
     return status
+}
+
+export function updateNumberOfPassengersOfStation(name,passengers,navigation) {
+    axios.post("http://192.168.1.27:8080/update/station",{
+        name : name,
+        passengers : passengers
+    }).then((res) => {
+        window.alert("başarılı")
+        navigation.navigate("AdminHome",{
+            run : true
+        })
+        
+    }).catch((e) => window.alert("istasyon güncellerken hata oluştu"))
 }
 
 export function adminLogout(navigation) {
@@ -226,4 +239,11 @@ export function addVoyages() {
             }
         }
     }
+}
+
+export function getVoyages() {
+    let promise = axios.get("http://192.168.1.27:8080/get/voyages")
+    let dataPromise = promise.then((res) => res.data)
+    return dataPromise
+
 }

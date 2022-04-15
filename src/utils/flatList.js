@@ -10,15 +10,24 @@ export const MyText = ({text,navigation,key}) => {
             if (stationData.hasOwnProperty(text)) {
                 //window.alert("yesss")
                 let stationInfo = stationData[text]
-               // window.alert(JSON.stringify(stationInfo))
-                addStation(text,stationData[text].lat,stationData[text].lng,0,navigation)
-                //window.alert("istasyon eklendi")
-                // navigation.setParams({
-                //     run2 : true
-                // })
+        
+                navigation.navigate("GoStationPage",{
+                    stationName : text,
+                    lat : stationData[text].lat,
+                    lng : stationData[text].lng,
+                    otherNavigation : navigation
+                })
             }else{
                 //window.alert("noo")
-                window.alert("Zaten ekli")
+                //window.alert("Zaten ekli")
+                let newTxt = text.replace("(ekli)","")
+                navigation.navigate("AddedStationPage",{
+                    stationName : newTxt,
+                    // lat : stationData[newTxt].lat,
+                    // lng : stationData[newTxt].lng,
+                    otherNavigation : navigation
+                })
+                //navigation.navigate("GoStationPage")
             }
         }} style = {styles.textStyle}>{text}</Text>
     )
