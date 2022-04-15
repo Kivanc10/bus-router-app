@@ -1,0 +1,20 @@
+{
+    "izmit-gölcük" : {
+        "distance" : 29
+    },
+    "izmit-karamürsel" : {
+        "distance" : 36
+    },
+    "izmit-gebze" : {
+        "distance" : 48
+    },
+    "gölcük-karamürsel" : {
+        "distance" : 49
+    },
+    "gölcük-gebze" : {
+        "distance" : 53
+    },
+    "karamürsel-gebze" : {
+        "distance" : 83
+    }
+}

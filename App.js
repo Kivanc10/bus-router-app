@@ -30,7 +30,7 @@ function IntroPage({ navigation }) {
 function Wrapper({ navigation, route }) {
 
   useEffect(() => {
-    let result = checkAdmin(navigation)
+    checkAdmin(navigation)
     checkUser(navigation)
    
       if (route.params?.isLoggedIn) {
