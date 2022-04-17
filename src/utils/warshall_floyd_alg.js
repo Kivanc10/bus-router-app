@@ -89,8 +89,6 @@ function floydWarshall(V)
 	}
 }
 
-// Print the shortest path
-/*
 function printPath(path)
 {
 	let n = path.length;
@@ -99,7 +97,7 @@ function printPath(path)
 		
 	console.log(path[n - 1] );
 }
-*/
+
 // Driver code
 
 let graph = [ [ 0, 3, INF, 7 ],
