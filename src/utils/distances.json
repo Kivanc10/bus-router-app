@@ -3,18 +3,30 @@
         "distance" : 29
     },
     "izmit-karamürsel" : {
-        "distance" : 36
+        "distance" : 999
     },
     "izmit-gebze" : {
-        "distance" : 48
+        "distance" : 999
     },
     "gölcük-karamürsel" : {
         "distance" : 49
     },
     "gölcük-gebze" : {
-        "distance" : 53
+        "distance" : 999
     },
     "karamürsel-gebze" : {
-        "distance" : 83
+        "distance" : 999
+    },
+    "izmit-derince" : {
+        "distance" : 11
+    },
+    "derince-gebze" : {
+        "distance" : 38
+    },
+    "derince-gölcük" : {
+        "distance" : 999
+    },
+    "derince-karamürsel" : {
+        "distance" : 999
     }
 }
