@@ -113,7 +113,7 @@ export function adminLogout(navigation) {
     let result = false;
     axios.post("http://192.168.1.27:8080/logout/admin")
         .then((res) => {
-            window.alert(res.data)
+            //window.alert(res.data)
             navigation.navigate({
                 name: "Wrapper",
                 params: { isAdmin: false },
@@ -135,7 +135,7 @@ export function registerForUser(username, password, email, navigation) {
         password: password
     }).then((res) => {
         let result = res.data
-        window.alert(result)
+        //window.alert(result)
         navigation.navigate("Login", {
             username,
             password
@@ -155,7 +155,7 @@ export function loginForUser(route, password, navigation, username) {
                 name: username,
                 password: password
             }).then((res) => {
-                window.alert(JSON.stringify(res.data))
+                //window.alert(JSON.stringify(res.data))
                 navigation.navigate({
                     name: "Wrapper",
                     params: { isLoggedIn: true, username: username },
@@ -217,7 +217,7 @@ function isHere(arr,name) {
 
 export function addVoyages() {
     let voyages = getAllVoyages()
-    window.alert(JSON.stringify(voyages))
+    //window.alert(JSON.stringify(voyages))
     for (let i = 0; i < Object.keys(stations).length; i++) {
         for (let j = i; j < Object.keys(stations).length; j++) {
             

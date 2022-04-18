@@ -1,9 +1,10 @@
-
+import stations from "./stationsInfo.json"
 
 // Javascript program to find the shortest
 // path between any two nodes using
 // Floyd Warshall Algorithm.
-let MAXN = 100;
+//window.alert(Object.keys(stations).length)
+let MAXN = Object.keys(stations).length;
 
 // Infinite value for array
 let INF = 999;
@@ -112,7 +113,10 @@ export function findShortestPaths(graph,start_i,end_i){
     initialise(V, graph);
     floydWarshall(V);
     let path = constructPath(start_i, end_i);
-    return path
+    return {
+        path,
+        dis
+    }
 }
 
 //window.alert(findShortestPaths(graph,3,2))

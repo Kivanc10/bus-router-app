@@ -8,7 +8,7 @@ import Home from './src/components/home.component';
 import Inside from './src/components/inside.component';
 import Admin from "./src/components/admin.component"
 import AdminWrapper from './src/components/adminwrapper.component';
-import {checkAdmin, checkUser} from './src/utils/interact';
+import { checkAdmin, checkUser } from './src/utils/interact';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,30 +32,35 @@ function Wrapper({ navigation, route }) {
   useEffect(() => {
     checkAdmin(navigation)
     checkUser(navigation)
-   
-      if (route.params?.isLoggedIn) {
-        setIsLoggedIn(true)
-        // let username = route.params.username;
-        // alert(JSON.stringify(route.params.username))
-      } else if (!route.params?.isLoggedIn) {
-        setIsLoggedIn(false)
-      }
-      if(route.params?.isAdmin) {
-        setIsAdmin(true)
-      }else if(!route.params?.isAdmin){
-        setIsAdmin(false)
-      }
-    
-    
-  }, [route.params?.isLoggedIn,route.params?.isAdmin])
-    
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [isAdmin,setIsAdmin] = useState(false)
+
+    if (route.params?.isLoggedIn) {
+      setIsLoggedIn(true)
+      // let username = route.params.username;
+      // alert(JSON.stringify(route.params.username))
+    } else if (!route.params?.isLoggedIn) {
+      setIsLoggedIn(false)
+    }
+    if (route.params?.isAdmin) {
+      setIsAdmin(true)
+    } else if (!route.params?.isAdmin) {
+      setIsAdmin(false)
+    }
+
+
+  }, [route.params?.isLoggedIn, route.params?.isAdmin])
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   return (
 
+
+
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {isLoggedIn == true && isAdmin == true && (
+        <Stack.Screen name='Inside' initialParams={{ username: route.params.username }} component={Inside} />
+      )}
       {isAdmin === true && (
-        <Stack.Screen name='AdminWrapper' component={AdminWrapper}/>
+        <Stack.Screen name='AdminWrapper' component={AdminWrapper} />
       )}
       {isLoggedIn === false && isAdmin === false && (
         <Stack.Screen name="IntroPage" component={IntroPage} />
@@ -64,7 +69,7 @@ function Wrapper({ navigation, route }) {
       {isLoggedIn == true && isAdmin === false && (
         <Stack.Screen name='Inside' initialParams={{ username: route.params.username }} component={Inside} />
       )}
-      
+
     </Stack.Navigator>
 
   )
@@ -72,7 +77,7 @@ function Wrapper({ navigation, route }) {
 
 export default function App({ navigation }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  
+
   useEffect(() => {
     // isLoggedIn
   })

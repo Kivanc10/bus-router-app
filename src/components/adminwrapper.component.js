@@ -10,7 +10,7 @@ import { getAllVoyages } from '../utils/getAllVoyages';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { addStation } from "../utils/interact"
 import { calculateDistanceMatrix } from "../utils/calculateDistanceMatrix"
-import MapView, { Marker,Polyline } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import {findShortestPaths} from "../utils/warshall_floyd_alg"
 import {Picker} from '@react-native-picker/picker';
 import MapViewDirections from 'react-native-maps-directions';
@@ -204,6 +204,13 @@ function UserInfo({ navigation }) {
 }
 
 
+function Test(distanceMatrix) {
+  //["derince","izmit","gölcük","karamürsel"]
+  let {dis} = findShortestPaths(distanceMatrix,4,2)
+  window.alert(JSON.stringify(dis))
+  window.alert(dis[4][2])
+}
+
 
 function AdminHome({ navigation, route }) {
   //const {username} = route.params;
@@ -239,7 +246,10 @@ function AdminHome({ navigation, route }) {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-
+  const [totalKm,setTotalKm] = useState(0)
+  // const [test,setTest] = useState([
+  //   "derince","izmit","gölcük","karamürsel"
+  // ])
   useEffect(() => {
     if (route.params?.run) {
       //window.alert("ever run var 2")
@@ -271,6 +281,7 @@ function AdminHome({ navigation, route }) {
     let distanceMatrix = Object.values(calculateDistanceMatrix(voyageData,stations))
     setDistanceMtrx(distanceMatrix)
     setDistanceMtrxKeys(Object.keys(calculateDistanceMatrix(voyageData,stations)))
+  
     //window.alert(distanceMtrxKeys)
     //window.alert(findShortestPaths(distanceMatrix,2,0)) // --
     // if (stationData.length !== distanceMatrix.length){
@@ -382,7 +393,8 @@ function AdminHome({ navigation, route }) {
               if (selectedCity !== "" && destinationCity !== "") {
                 let fromIndex = distanceMtrxKeys.indexOf(selectedCity)
                 let destinationIndex = distanceMtrxKeys.indexOf(destinationCity)
-                let path = findShortestPaths(distanceMtrx,fromIndex,destinationIndex)
+                let {path,dis} = findShortestPaths(distanceMtrx,fromIndex,destinationIndex)
+                setTotalKm(dis[fromIndex][destinationIndex])
                 //window.alert(`from -> ${selectedCity} , to -> ${destinationCity} , path -> ${JSON.stringify(path)}}`)
                 //window.alert(JSON.stringify(path))
                // window.alert(JSON.stringify(distanceMtrxKeys))
@@ -420,22 +432,33 @@ function AdminHome({ navigation, route }) {
           <Button title='Rota temizle' onPress={() => {
               //window.alert(selectedCity + " " + destinationCity)
               setDestinationCity("")
-              setSelectedCity("")
-              setCurrentRoute([{lat : 0,lng : 0}])
+                setSelectedCity("")
+                setCurrentRoute([{ lat: 0, lng: 0 }])
+                setTotalPassengers(0)
+                setTotalKm(0)
               window.alert("temizlendi")
             }} />
           </View>
         </View>
         
-            <Text style={{color : "red",padding : 15}}>{"Toplam yolcu sayısı = " + totalPassengers}</Text>
+            {currentRoute.length > 1 && (
+              <Text style={{color : "red",padding : 15}}>{"Toplam yolcu sayısı = " + totalPassengers}</Text>
+            )}
             <View style={{padding : 5,flexDirection : "column"}} >
             {currentRoute.length > 1 && currentRoute.map((e) => (
               <Text style={{color : "blue",fontWeight : "bold"}}>{e.name + " istasyonu " + e.passengers + " yolcu"}</Text>
             ))}
             </View>
+            <View>
+              {totalKm !== 0 && (
+                <Text style={{color : "red",fontWeight : "bold"}}>{"Toplam mesafe " + totalKm + " km"}</Text>
+              )}
+            </View>
       </View> 
     </ScrollView>
     </View>
+
+
     // <View style={styles.container}>
     //   {stations.length > 0 && (
     //     // <Text>{JSON.stringify(stations)}</Text>
@@ -452,14 +475,9 @@ function AdminHome({ navigation, route }) {
     //   {locations.length > 0 && locations.map((e) => (
     //     <Text style={{color : "blue"}}>{e[0] + " " + e[1]}</Text>
     //   ))}
-    //   {/* <View style={{
-    //     borderRadius : 15,
-    //     margin : 15
-    //   }}>
-    //   <Button title='sefer yenile' onPress={() => addVoyages()} />
-    //   </View> */}
-    
-
+    //    {/* {window.alert(JSON.stringify(voyageData))} */}
+    //    {voyageData.map((e) => {})}
+    //     <Text>{JSON.stringify(test)}</Text>
     // </View>
     
   )
